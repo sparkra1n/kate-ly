@@ -5,9 +5,7 @@ import { BOT_TOKEN } from "./config/Config";
 
 console.log("Bot is starting...");
 
-const client = new Client({
-  intents: []
-});
+const client = new Client({ intents: ['Guilds', 'GuildMessages'] });
 
 ready(client);
 createInteraction(client);

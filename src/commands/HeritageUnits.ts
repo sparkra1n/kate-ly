@@ -9,20 +9,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import qs from "qs";
 import { Command } from "../Command";
 
-interface DataElement {
-  Id: number;
-  SpottedOn: string;
-  SpottedOn2: string;
-  Direction: string;
-  Train: string | null;
-  Leading: string;
-  Location: string;
-  SpotterScore: string;
-  VisualId: number;
-  Visual: string;
-  SpotterHandle: string;
-}
-
 export const HeritageUnits: Command = {
   data: {
     name: "heritageunits",
@@ -36,11 +22,7 @@ export const HeritageUnits: Command = {
       },
     ],
   },
-  async execute(
-    client: Client,
-    interaction: CommandInteraction,
-    args: CommandInteractionOptionResolver
-  ) {
+  async execute(client: Client, interaction: CommandInteraction, args: CommandInteractionOptionResolver) {
     const locomotive = args.getString("hu")?.toUpperCase() ?? "";
     const response: string | null = await getLocomotiveData(locomotive);
 
@@ -186,11 +168,7 @@ function processResponseData(response: AxiosResponse) {
   return { data, verificationToken, antiForgeryToken };
 }
 
-function createPayload(
-  data: string,
-  tzOffset: string,
-  verificationToken: string
-) {
+function createPayload(data: string, tzOffset: string, verificationToken: string) {
   return {
     draw: "1",
     "columns[0][data]": "SpottedOn2",
