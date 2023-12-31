@@ -94,14 +94,14 @@ export default class ButtonNavigatorCommand implements Command {
         }
         this.buttonCallback(this.dataArray[currentIndex], currentIndex, this.dataArray.length, this.interaction, this.args);
 
-        /* If no change happens for each interaction, Discord says "this interaction failed"
+        /* If no change happens for every interaction, Discord says "this interaction failed"
          * The setTimeout is to ensure that the message does not get cancelled by the rate limit.
          */
         setTimeout(async () => {
           await buttonInteraction.update({
             components: buttonInteraction.customId === "close" ? [] : [row],
           });
-        }, 500);
+        }, 250);
       }
     });
 

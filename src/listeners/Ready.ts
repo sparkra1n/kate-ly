@@ -7,7 +7,7 @@ export default (client: Client): void => {
       return;
     }
 
-    // Convert your custom Command objects to ApplicationCommandDataResolvable
+    // Convert custom Command objects to ApplicationCommandDataResolvable
     const commandsData = Commands.map((command) => ({
       name: command.data.name,
       description: command.data.description,
