@@ -49,7 +49,7 @@ export default class ButtonNavigatorCommand implements Command {
     return new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder().setCustomId("left").setLabel("<").setStyle(1),
       new ButtonBuilder().setCustomId("right").setLabel(">").setStyle(1),
-      new ButtonBuilder().setCustomId("close").setLabel("X").setStyle(4)
+      new ButtonBuilder().setCustomId("close").setLabel("x").setStyle(4)
     );
   }
 
