@@ -8,6 +8,52 @@ import {
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import qs from "qs";
 import { Command } from "../Command";
+import ButtonNavigatorCommand, { ButtonNavigatorCallback } from "./ButtonNavigator";
+
+const heritageUnitsCallback: ButtonNavigatorCallback = async (data, currentIndex, dataLength, interaction, args) => {
+  const embed = new EmbedBuilder()
+      .setTitle("Heritage Unit")
+      .setDescription(`Location of ${args}`)
+      .setColor([65, 79, 107])
+      .addFields(
+        {
+          name: "Date",
+          value: data["SpottedOn"] ?? "Unknown",
+          inline: true,
+        },
+        {
+          name: "Last seen at",
+          value: data["Location"] ?? "Unknown",
+          inline: true,
+        },
+        {
+          name: "Train number",
+          value: data["Train"] ?? "Unknown",
+          inline: true,
+        },
+        {
+          name: "Direction",
+          value: data["Direction"] ?? "None",
+          inline: true,
+        },
+        {
+          name: "Leading",
+          value: data["Leading"] ?? "Unknown",
+          inline: true,
+        },
+        {
+          name: "Visually seen",
+          value: data["Visual"] ?? "Unknown",
+          inline: true,
+        }
+      )
+      .setFooter({
+        text: `Page ${currentIndex + 1} of ${dataLength}`
+      });
+    await interaction.editReply({
+      embeds: [embed],
+    });
+};
 
 export const HeritageUnits: Command = {
   data: {
@@ -33,49 +79,18 @@ export const HeritageUnits: Command = {
       return;
     }
 
-    const embed = new EmbedBuilder()
-      .setTitle("Heritage Unit")
-      .setDescription(`Location of ${locomotive}`)
-      .setColor([65, 79, 107])
-      .addFields(
-        {
-          name: "Date",
-          value: response["data"][0]["SpottedOn"] ?? "Unknown",
-          inline: true,
-        },
-        {
-          name: "Last seen at",
-          value: response["data"][0]["Location"] ?? "Unknown",
-          inline: true,
-        },
-        {
-          name: "Train number",
-          value: response["data"][0]["Train"] ?? "Unknown",
-          inline: true,
-        },
-        {
-          name: "Direction",
-          value: response["data"][0]["Direction"] ?? "None",
-          inline: true,
-        },
-        {
-          name: "Leading",
-          value: response["data"][0]["Leading"] ?? "Unknown",
-          inline: true,
-        },
-        {
-          name: "Visually seen",
-          value: response["data"][0]["Visual"] ?? "Unknown",
-          inline: true,
-        }
-      )
-      .setFooter({
-        text: `Spotted by ${response["data"][0]["SpotterHandle"] ?? "Unknown"}`
-      });
-    await interaction.editReply({
-      embeds: [embed],
-    });
-  },
+    const buttonNavigator = new ButtonNavigatorCommand(
+      "heritageunits", 
+      `Browse locomotive spottings for ${locomotive}`, 
+      response["data"], 
+      heritageUnitsCallback,
+      interaction,
+      locomotive
+    );
+
+    // Execute the button navigator
+    await buttonNavigator.execute(client, interaction, args);
+  }
 };
 
 async function getLocomotiveData(
