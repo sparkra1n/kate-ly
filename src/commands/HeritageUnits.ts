@@ -8,7 +8,7 @@ import {
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import qs from "qs";
 import { Command } from "../Command";
-import ButtonNavigatorCommand, { ButtonNavigatorCallback } from "../ButtonNavigator";
+import ButtonNavigator, { ButtonNavigatorCallback } from "../ButtonNavigator";
 
 const heritageUnitsCallback: ButtonNavigatorCallback = async (data, currentIndex, dataLength, interaction, args) => {
   const embed = new EmbedBuilder()
@@ -79,7 +79,7 @@ export const HeritageUnits: Command = {
       return;
     }
 
-    const buttonNavigator = new ButtonNavigatorCommand(
+    const buttonNavigator = new ButtonNavigator(
       response["data"], 
       heritageUnitsCallback,
       interaction,

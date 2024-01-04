@@ -1,5 +1,4 @@
 import { Client, CommandInteraction, CommandInteractionOptionResolver, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import { Command, ApplicationCommandOption } from "./Command";
 
 export type ButtonNavigatorCallback = (
   data: any, 
@@ -9,7 +8,7 @@ export type ButtonNavigatorCallback = (
   args?: any[]
 ) => void;
 
-export default class ButtonNavigatorCommand {
+export default class ButtonNavigator {
   private readonly dataArray: any[];
   private readonly buttonCallback: ButtonNavigatorCallback;
   private readonly interaction: CommandInteraction;

@@ -2,7 +2,7 @@ import { Client, CommandInteraction, EmbedBuilder } from "discord.js";
 import axios, { AxiosResponse } from 'axios';
 import { DateTime } from 'luxon';
 import Command from "../Command";
-import ButtonNavigatorCommand, { ButtonNavigatorCallback } from "../ButtonNavigator";
+import ButtonNavigator, { ButtonNavigatorCallback } from "../ButtonNavigator";
 
 type Data = {
   timestamp: string;
@@ -70,7 +70,7 @@ export const Chehalis: Command = {
     }
     
     const data = extractSpreadsheetData(result);
-    const buttonNavigator = new ButtonNavigatorCommand(data, chehalisCallback, interaction);
+    const buttonNavigator = new ButtonNavigator(data, chehalisCallback, interaction);
 
     // Execute the button navigator
     await buttonNavigator.execute(client, interaction);
