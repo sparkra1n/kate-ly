@@ -1,5 +1,5 @@
 import { Client, CommandInteraction, CommandInteractionOptionResolver, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import { Command, ApplicationCommandOption } from "../Command";
+import { Command, ApplicationCommandOption } from "./Command";
 
 export type ButtonNavigatorCallback = (
   data: any, 
@@ -9,40 +9,21 @@ export type ButtonNavigatorCallback = (
   args?: any[]
 ) => void;
 
-export default class ButtonNavigatorCommand implements Command {
-  data: {
-    name: string;
-    description: string;
-    options?: ApplicationCommandOption[];
-  };
-
-  private readonly name: string;
-  private readonly description: string;
-  private readonly options?: ApplicationCommandOption[];
+export default class ButtonNavigatorCommand {
   private readonly dataArray: any[];
   private readonly buttonCallback: ButtonNavigatorCallback;
   private readonly interaction: CommandInteraction;
   private readonly args: any[];
 
-  constructor(name: string, 
-              description: string, 
+  constructor(
               dataArray: any[], 
               buttonCallback: ButtonNavigatorCallback, 
               interaction: CommandInteraction, 
-              args?: any,
-              options?: ApplicationCommandOption[]) {
-    this.name = name;
-    this.description = description;
-    this.options = options || [];
+              args?: any) {
     this.dataArray = dataArray;
     this.buttonCallback = buttonCallback;
     this.interaction = interaction;
     this.args = args;
-    this.data = {
-      name: this.name,
-      description: this.description,
-      options: this.options,
-    };
   }
 
   private createActionRow(): ActionRowBuilder<ButtonBuilder> {
@@ -53,9 +34,8 @@ export default class ButtonNavigatorCommand implements Command {
     );
   }
 
-  async execute(client: Client, interaction: CommandInteraction, args: CommandInteractionOptionResolver): Promise<void> {
+  async execute(client: Client, interaction: CommandInteraction, args?: CommandInteractionOptionResolver): Promise<void> {
     let currentIndex = 0;
-    // const dataArray = ["one", "two", "three"];
 
     if (!interaction.channel) {
       console.error("Channel is not available.");
@@ -63,9 +43,7 @@ export default class ButtonNavigatorCommand implements Command {
     }
 
     const row = this.createActionRow();
-
     const message = await interaction.editReply({
-      // content: this.dataArray[currentIndex],
       components: [row],
     });
 
@@ -105,7 +83,7 @@ export default class ButtonNavigatorCommand implements Command {
       }
     });
 
-    collector.on("end", (collected: any, reason: any) => {
+    collector.on("end", (_collected: any, _reason: any) => {
       // Edit the original message to remove the action row with buttons
       message.edit({
         components: [],

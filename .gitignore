@@ -1,5 +1,6 @@
 # Config
 Config.ts
+UserIDs.json
 # Logs
 logs
 *.log

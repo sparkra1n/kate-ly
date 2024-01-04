@@ -8,7 +8,7 @@ import {
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import qs from "qs";
 import { Command } from "../Command";
-import ButtonNavigatorCommand, { ButtonNavigatorCallback } from "./ButtonNavigator";
+import ButtonNavigatorCommand, { ButtonNavigatorCallback } from "../ButtonNavigator";
 
 const heritageUnitsCallback: ButtonNavigatorCallback = async (data, currentIndex, dataLength, interaction, args) => {
   const embed = new EmbedBuilder()
@@ -80,8 +80,6 @@ export const HeritageUnits: Command = {
     }
 
     const buttonNavigator = new ButtonNavigatorCommand(
-      "heritageunits", 
-      `Browse locomotive spottings for ${locomotive}`, 
       response["data"], 
       heritageUnitsCallback,
       interaction,
